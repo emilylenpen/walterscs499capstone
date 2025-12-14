@@ -463,6 +463,12 @@ The enhancement's narrative includes a further breakdown of the troubleshooting 
 
 ---
 
+# Application Demonstration
+
+This section provides some example images of what the application user interacts with when it is emulated on a Pixel 2.
+
+---
+
 # Outcome Reflection
 
 Through the completion of this capstone project, its ePortfolio, and my time within this course and at Southern New Hampshire University, I have gained confidence in my abilities to become a successful professional and computer scientist. My accomplishments throughout my studies at this institution exemplify that I am prepared to demonstrate technical skills related to my profession and that I am capable of working with industry colleagues and leaders as well as stakeholders and potential business partners to create a product that excels beyond its requirements and exemplifies what it means to be a proficient and experienced software engineer. This specific ePortfolio demonstrates that I have met the following outcomes:
@@ -476,6 +482,4 @@ Through the completion of this capstone project, its ePortfolio, and my time wit
 *I have demonstrated the usage of external tools to provide value to the project with the use of Firebase. This tool has enhanced and elevated the application to be realistic for industry standards and appropriate for proper usage with cloud data hosting. I have demonstrated the usage of innovative techniques and skills through combining modern and relevant tools with industry-standard practices in organization, syntax, code documentation, and object-oriented programming principles throughout every iteration of enhancement. I have properly and carefully restructured the application to accommodate for necessary changes while expanding it to become adaptable for future improvement. The application's broad and relevant usage allows for it to provide value to its users through inventory management that contains secure cloud-based storage, searching and sorting, role-based access control, and clear and intuitive user interface on a variety of accessible platforms through careful Android API selection.*
 - Develop a security mindset that anticipates adversarial exploits in software architecture and designs to expose potential vulnerabilities, mitigate design flaws, and ensure privacy and enhanced security of data and resources
 *I have developed a security mindset through the improvement of this application by restructuring code and doing static reviews to minimize overall structural risks and design flaws. I have deterred the risks of vulnerabilities through multiple failsafes with defense in depth through application-level RBAC as well as rules set within Firestore access. The application will fail securely and assume least privilege through default user access being minimal. User mediation occurs with constant checks to affirm access is allowed while balancing with ease of access of permission storage. The reduction of unnecessary dependencies and APIs helps reduce and minimize the potential attack surface of the application. Thorough testing and removal of queries with improper sanitization help keep the application safe from injection and other vulnerabilities. I have ensured the application does not store sensitive user data and it is handled by Firebase which ensures sensitive information is encrypted and separately accessed. I have verified on numerous fronts that users will be comfortable using the application through its various protective measures and thorough testing.*
-
-
 
