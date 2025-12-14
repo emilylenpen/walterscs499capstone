@@ -18,6 +18,7 @@ Beginning with this professional self-assessment, I can give you a lens into wha
 ---
 
 # Professional Self-Assessment
+
   The journey I have traversed at Southern New Hampshire University in the Computer Science program alongside my skill refinement within the program’s capstone has helped me transform from a learning student within the field into a career-ready professional through extensive applications and exposure to real-world problems, communication, and solution development. I have learned in detail about a variety of topics related to the discipline as well as expanded my knowledge through interdisciplinary studies, and through my coursework I have worked to hone my skills related to critical thinking, problem solving, adaptability, and understanding complex structures and systems. In tandem with my coursework, I have also refined communication skills with both technical and nontechnical audiences, teamwork with colleagues, and time management.
 My experience with teamwork and collaboration in the world of computer science began in the same place that my passion for software development and computer science truly blossomed, this being my time from elementary school all the way to high school immersed in the world of FIRST robotics. After deciding to narrow down my decision on my career path to computer science, I was able to apply the skills I learned there directly to what I have learned with my time here at Southern New Hampshire University. On the technical side of the team, we had subdivisions that focused on building, designing, and programming the robot, all of which I spent time in, with a majority of that time being spent in the programming sector. With my particular focus on programming, I was able to learn about the use of multiple languages such as Java, LabVIEW, and Python in the application of robotics, and through the application of good practices, this knowledge followed me into my pursuance of my Computer Science degree. It would be an incomprehensive discussion of my progression through the program without acknowledging the background I came from that provided me with the passion and understanding I possessed related to the field before my time at SNHU.
 
@@ -36,6 +37,7 @@ My experience with teamwork and collaboration in the world of computer science b
 ---
 
 # Informal Code Review
+
 For this ePortfolio, I have chosen to demonstrate the three major enhancements using an inventory application from CS-360: Mobile Architecture and Programming. The original application features a login portal, a main activity displaying an inventory stored in a SQLite database, and SMS permissions that notify when an item has reached low stock. The following code review covers existing application functionality, an analysis for improvement of the code, and areas of enhancement in Software Design and Engineering, Algorithms and Data Structure, and Databases.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hlcshzuKRJs?si=p5SqfbURtTG-h4T3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -157,6 +159,7 @@ private void addItem() {
 
 You can read the full narrative of the artifact enhancement [here](/Narratives/Software Design and Engineering Narrative.pdf).
 This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
+Overall, the Software Design and Engineering enhancement saw changes in role-based access control which resulted in a need for significant structural changes of the original application to store user data in a way that is more efficient and creates a better opportunity for users to have proper access to certain aspects of inventory management which helps to keep items secure. The resulting UI changes keep the app more streamlined depending on user needs and are relevant to what the user is capable of performing. Toasts are used throughout these changes to help communicate with the user what the application is performing.
 
 ---
 
@@ -165,7 +168,7 @@ This narrative includes a further breakdown of the troubleshooting process and m
 
 For the category of algorithms and data structure, this artifact was perfectly suited to demonstrate an enhancement related to efficiency of using the inventory. As it stood, the inventory functioned well in terms of storing item data, but there was no good way to sort and filter items which would become extremely inconvenient and could even render the application unusable if not implemented. 
 
-As outlined with my intentions of improvement in this category:
+As outlined with my initial intentions of improvement in this category:
 
 > I will first have to improve the information that is stored based on items by providing more information (not all of which may necessarily be visible at all times; for example, a primary addition will be item categories). I will then have to format the items within the database in a way that they can be properly indexed, which in this case an array will serve well for due to the similarities of the data between entries. I will then need to create algorithmic logic that is capable of searching between the various types of information associated with an item (searching by name, category, or quantity). There will need to be additional user interface elements that the user can interact with to search for items, and logic that accounts for the user interface updating to show these results. Overall, I would like for this enhancement to be able to provide the user with the tools to search for items based on a variety of factors and be provided with an efficient return of results.
 
@@ -326,12 +329,132 @@ private void sortByValue(String value) {
 
 You can read the full narrative of the artifact enhancement [here](Narratives/Algorithms and Data Structure Narrative.pdf).
 This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
+The DSA enhancements also allowed for revisions of functionality of editing items and other minor functionality updates, and the CRUD functionality is newly responsive to the preferred method of item storage. These overhauls all throughout the application allow for a much more smooth and useful user experience through linear search for item filtering, data structure improvement, UI-related changes to accommodate for searching and sorting, CRUD changes related to item storage, and better-suited minor UI updates to clarify what points of interaction result in what actions taking place (quantity edit requires clicking on quantity itself, not whole row, and category editing also added). These changes add new and much-needed functionality to the application with visual updates to provide the user with these actions.
 
 ---
 
 # Databases
+## Access Enhanced Artifact [Here](Artifacts/Databases Enhancement/WaltersInventoryApp)
 
+For this enhancement, the application faced its greatest overhaul through its migration to the use of Firebase. These changes allowed for user authentication, email-based login and a lack of storing sensitive information locally, cloud storage, and multi-user access that pairs with rule-based access for item data as another permission failsafe. 
 
+As noted within my original plans for the database enhancement,
+
+> This transition will involve the introduction of Firebase into the application through the necessary dependencies. Then, I will have to map data so that it can be transferred comparatively from a table in SQLite to how this data will be formatted in Firebase (for both users and items). Then, instead of using queries directly within the preexisting classes like before, there will be a new class implemented that serves as the junction between SQLite and Firebase as a repository that provides data to the Activity regardless of its source, and then UI updates will need to be considered alongside proper syncing based on changes. This is then where we can implement decisions being made only based on whether the user has permissions to make certain changes on levels beyond just what is visible to the user or checked by CRUD operations and ties directly to the data. (https://firebase.google.com/docs/database/android/start)
+
+At this point forward, there is a lot of reduction of previously used code, but the changes that were made before it still prove to be entirely necessary because the improvement to the initial structure of the app allowed for a much more seamless and logical conversion between its preexisting state into an application fully supported by new backend services that completely change the application's baseline functionality into something much more, and even open the door into much greater improvements with all of the services that Firebase has to offer.
+
+Within the code, we see a complete removal of the previous DatabaseHelper class, and this becomes the FirebaseHelper class. This means that the structures of data that previously existed had to be converted into the more abstract classifications that Firestore uses. In order to allow for multi-user access, we had beyond just "items" and "users" collections. Instead, we used "ItemCollection" (also resulting in a new POJO class) to show how the items are stored within it, but there are given allowed users that can access the database which ties to the other "users" collection referring back to user logins for proper collection access. This then results in an instance of the database being created with the FirestoreHelper. We can then look at one of the methods and its associated listener that shows improvement and demonstrates a variety of features:
+
+```
+    // ItemCollection methods (as in the collection of items that includes who has permissions)
+    // Retrieves item collections based on user's UID and stores it in ItemCollection (as in a
+    // single inventory) object. ItemCollection represents an inventory that contains Items.
+    public void getItemCollections(String uid, OnItemCollectionsLoadedListener listener) {
+        db.collection("itemcollections")
+                .whereArrayContains("allowedUsers", uid)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<ItemCollection> collections = new ArrayList<>();
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        String collectionId = doc.getId();
+                        String name = doc.getString("name");
+                        collections.add(new ItemCollection(collectionId, name));
+                    }
+                    listener.onLoaded(collections);
+                })
+                .addOnFailureListener(listener::onError);
+    }
+
+    // Listener for a loaded item collection
+    public interface OnItemCollectionsLoadedListener {
+        void onLoaded(List<ItemCollection> collections);
+        void onError(Exception e);
+    }
+```
+
+There are several points of acknowledgment within the above snippet. We see the usage of a loaded listener-Firestore makes use of asynchronous calls. We can also see the reference to the "allowedUsers" to verify connections to a collection of items dependent on the user's ID. Ultimately, though, we can see the total replacement of previous methods where calls to SQLite through queries are totally removed and instead we have calls between Firestore and the application.
+
+Another substantial change can be particularly observed in how logins are handled. Instead of calling for information from the user database like before, authentication and user login are handled entirely with Firebase. We can take a look at how logins are handled using an instance of FirebaseAuth in conjunction with the user data stored in Firestore:
+
+```
+// Logic for handling user login upon button press
+    private void handleLogin() {
+        String email = usernameEntry.getText().toString().trim();
+        String password = passwordEntry.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, R.string.fill_fields, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Uses email and password sign-in method
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user == null) {
+                        Toast.makeText(this, R.string.login_unsuccessful, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Fetch user role
+                    db.collection("users")
+                            .document(user.getUid())
+                            .get()
+                            .addOnSuccessListener((DocumentSnapshot doc) -> {
+                                if (doc.exists()) {
+                                    String role = doc.getString("role");
+
+                                    // Save user login preferences
+                                    prefs.edit()
+                                            .putBoolean("logged_in", true)
+                                            .putString("user_role", role)
+                                            .apply();
+
+                                    Toast.makeText(this, R.string.login_successful, Toast.LENGTH_SHORT).show();
+                                    goToMain(user.getUid(), role);
+                                } else {
+                                    Toast.makeText(this, R.string.missing_profile, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+
+    }
+```
+
+Now, we can look at how this affects our primary activity through one of the simpler methods like items being loaded where it calls upon the FirestoreHelper and uses the listener to prepare these items for the user:
+
+```
+    // Load items that exist within the collection (also used for refreshing)
+    private void loadItems() {
+        if (currentCollectionId == null) return;
+
+        firestoreHelper.getItems(currentCollectionId, new FirestoreHelper.OnItemsLoadedListener() {
+            @Override
+            public void onLoaded(List<Item> items) {
+                allItems = new ArrayList<>(items);
+                filteredItems = new ArrayList<>(allItems);
+                loadFilteredItems();
+                loadCategories();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(MainActivity.this, "Failed to load items: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+```
+
+You can read the full narrative of the artifact enhancement [here](Narratives/Databases Enhancement.pdf).
+This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
+For this enhancement, it becomes clear that the changes occurring throughout each category are not merely improvements one after another-instead, they are better suited to exist as different enhanced versions of the application upon different needs. The Software Design and Engineering improvements present themselves as significant improvements to the structural integrity of the application, and the DSA changes allow for greatly enhanced functionality of the app that extends beyond the Software Design and Engineering changes. Beyond this point, the Database enhancement is a step even further beyond the DSA changes because it migrates the app entirely away from SQLite and makes use of the tool Firebase. For a less dependent version of the application, one could refer to the application's enhancements in the other two categories, but this Firebase rehaul takes the app to another level using external tools that allow for it to continue to be easily expanded upon and allowing for better abstraction of code. 
+
+Another point of improvement in this enhancement involves significant enhancements in code documentation including a complete rehaul of all existing code comments as well as proper doc headers. All of these cumulative changes, including the extensive ones featured in this enhancement, alongside the refreshed comments take the application from a static offline inventory app to a cloud-based, secure, efficient, and far more scalable version of its previous iterations.
 
 ---
 
