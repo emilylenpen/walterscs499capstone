@@ -46,9 +46,106 @@ I have chosen to substantially enhance a particular artifact from CS-360: Mobile
 
 ---
 
-# Software Design and Engineering
+# Software Design and Engineering | Access Enhanced Artifact [Here](Artifacts/Software Design and Engineering Enhancement/WaltersCS360InventoryApp)
 
-Testing a narrative link [here](/Narratives/Software Design and Engineering Narrative.pdf).
+For software design and engineering, I have implemented role-based access control into the application. This involved an extensive overhaul of preexisting software structure as well as new corresponding UI components or visual updates according to the user's role. Future iterations of the application include further failsafes related to the roles that have been added. 
+As my initial plan for this artifact stated: 
+> It will extend beyond simply defining a new role in the database; the application will need this, but it will primarily introduce implementation of user authentication, and it will also need additional logic that is capable of handling how the application responds and provides different elements for the user to interact with depending on their role. This also involves determining what features and functionality are available to different roles (i.e. an administrative role being the only one that can add items rather than just adjust quantities). There will need to be structural changes to the application that help distinguish direct database interaction from the activity logic, so a class to handle user information should be developed as well as a class to handle determining the user’s role. Then, an additional helper class can manage user authentication upon login, and appropriate logic can be enforced to direct a user to the appropriate screen.
+While there was significant structural change between the original project and this enhancement version, for these snippets I will highlight the specific changes that shine through with the RBAC implementation.
+This snippet demonstrates the RoleHelper class which determines which users are allowed to perform certain actions within a RoleHelper class.
+```
+public class RoleHelper {
+    public static boolean canAddItems(String role) {
+        return role.equals("admin");
+    }
+
+    public static boolean canEditItems(String role) {
+        return role.equals("admin") || role.equals("user");
+    }
+
+    public static boolean canDeleteItems(String role){
+        return role.equals("admin");
+    }
+
+    public static boolean canViewItems(String role){
+        return role.equals("admin") || role.equals("user") || role.equals("viewer"); // There is no limitation for viewing items
+    }
+}
+```
+These roles are stored within the creation of the user database.
+```
+public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)");
+        db.execSQL("CREATE TABLE inventory (item_id TEXT, name TEXT, amount INTEGER, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(user_id))");
+        int DATABASE_VERSION = 2;
+    }
+
+    // Creation of a new user in the database.
+    public int createUser(String username, String password, String role) {
+        SQLiteDatabase db = getWritableDatabase(); // needs to be editable
+        ContentValues values = new ContentValues();
+        values.put("username", username);
+        values.put("password", password);
+        values.put("role", role);
+
+        return (int) db.insert("users", null, values);
+    }
+```
+
+Then, the role of the user can determine what UI elements are visible so that actions that are impossible for a certain user will not present as being possible.
+```
+if (!RoleHelper.canAddItems(currentUserRole)) {
+            btnAddItem.setVisibility(View.GONE); // using View for simplicity
+        }
+```
+
+We also can see how these roles are implemented within additional checks beyond hidden UI elements; this means that if, for whatever reason, the user is still able to see certain elements that they shouldn't or have access to these methods, there are additional checks in place to verify the user is able to perform a certain action before it occurs. This is visible in this example with the method to add items to the database based on the user's input amongst all of the other input validations with the first if statement where the RoleHelper check occurs:
+```
+private void addItem() {
+        // Even though the button should be hidden, this is an additional RBAC check
+        // to make sure the user cannot access the item. Notifies user and ends action.
+        if (!RoleHelper.canAddItems(currentUserRole)) {
+            Toast.makeText(this, R.string.invalid_perms,Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String name = itemNameAdd.getText().toString().trim();
+        String id = itemIdAdd.getText().toString().trim();
+        String amtEntry = itemAmtAdd.getText().toString().trim();
+        int amount;
+
+        // Making sure there is valid data to enter in all fields
+        if (name.isEmpty() || id.isEmpty() || amtEntry.isEmpty()) {
+            Toast.makeText(this, R.string.fill_fields, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Need a try catch so that we can prevent invalid entry ahead of time
+        try {
+            amount = Integer.parseInt(amtEntry);
+            if (amount < 0) throw new NumberFormatException();
+        } catch (NumberFormatException exception) {
+            Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (db.addItem(id, name, amount, currentUserId)) {
+            clearEntries();
+            loadItems();
+            checkStock();
+            Toast.makeText(this, R.string.item_added, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.id_exists, Toast.LENGTH_SHORT).show();
+        }
+
+        loadItems();
+
+    }
+```
+
+
+You can read the full narrative of the artifact enhancement [here](/Narratives/Software Design and Engineering Narrative.pdf).
+This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
 
 ---
 
