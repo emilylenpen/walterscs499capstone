@@ -467,6 +467,40 @@ The enhancement's narrative includes a further breakdown of the troubleshooting 
 
 This section provides some example images of what the application user interacts with when it is emulated on a Pixel 2.
 
+### Main inventory screen
+![Main default activity inventory screen with sample data](App Images/EmulatedMainActivity.png)
+
+### Main inventory screen with category suggestions
+![Main default activity inventory screen with sample data where adding a new item gives category suggestions](App Images/EmulatedMainActivityPredict.png)
+
+### Main inventory screen with sorted items
+![Main default activity inventory screen with sample data with items sorted by ID descending](App Images/EmulatedMainActivitySorted.png)
+
+### Main inventory screen with filtered items
+![Main default activity inventory screen with sample data where a query in the searchbar results in filtered items](App Images/EmulatedMainActivityFiltered.png)
+
+### Main inventory screen with undo snackbar
+![Main default activity inventory screen with sample data where deleting an item offers to undo with a snackbar](App Images/EmulatedMainActivitySnackbar.png)
+
+### Login screen
+![Login activity screen when the user opens the application without a preferred login established](App Images/EmulatedLoginActivity.png)
+
+### SMS permission screen
+![SMS permission activity screen when the user doesn't have SMS permission preferences established](App Images/EmulatedSMSPermActivity.png)
+
+# Firebase Demonstration
+
+This section provides some example images of what the Firebase interface looks like for managing the application.
+
+### Firestore collections
+![Firestore control panel with collections for inventory](App Images/FirestoreCollections.png)
+
+### Firestore rules
+![Firestore control panel with rules for data access](App Images/FirestoreRules.png)
+
+### Firestore authentication
+![Firestore control panel with authenticated users](App Images/FirebaseUserAuth.png)
+
 ---
 
 # Outcome Reflection
