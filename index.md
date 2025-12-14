@@ -4,7 +4,9 @@ title: Home
 ---
 
 This website serves as my ePortfolio for the CS-499 Computer Science Capstone with Southern New Hampshire University. Throughout this ePortfolio, I will share a professional self-assessment, a code review demonstrating my improvements towards my original artifact, and my three major enhancements in Software Design and Engineering, Algorithms and Data Structure, and Databases.
+
 My progression through the Computer Science program at Southern New Hampshire University and through the Capstone for this program shows that I have demonstrated proficiency in the following five outcomes: 
+
 - Employ strategies for building collaborative environments that enable diverse audiences to support organizational decision making in the field of computer science
 - Design, develop, and deliver professional-quality oral, written, and visual communications that are coherent, technically sound, and appropriately adapted to specific audiences and contexts
 - Design and evaluate computing solutions that solve a given problem using algorithmic principles and computer science practices and standards appropriate to its solution, while managing the trade-offs involved in design choices
@@ -50,11 +52,15 @@ I have chosen to substantially enhance a particular artifact from CS-360: Mobile
 ## Access Enhanced Artifact [Here](Artifacts/Software Design and Engineering Enhancement/WaltersCS360InventoryApp)
 
 For software design and engineering, I have implemented role-based access control into the application. This involved an extensive overhaul of preexisting software structure as well as new corresponding UI components or visual updates according to the user's role. Future iterations of the application include further failsafes related to the roles that have been added. 
+
 As my initial plan for this artifact stated: 
+
 > It will extend beyond simply defining a new role in the database; the application will need this, but it will primarily introduce implementation of user authentication, and it will also need additional logic that is capable of handling how the application responds and provides different elements for the user to interact with depending on their role. This also involves determining what features and functionality are available to different roles (i.e. an administrative role being the only one that can add items rather than just adjust quantities). There will need to be structural changes to the application that help distinguish direct database interaction from the activity logic, so a class to handle user information should be developed as well as a class to handle determining the user’s role. Then, an additional helper class can manage user authentication upon login, and appropriate logic can be enforced to direct a user to the appropriate screen.
 
 While there was significant structural change between the original project and this enhancement version, for these snippets I will highlight the specific changes that shine through with the RBAC implementation.
+
 This snippet demonstrates the RoleHelper class which determines which users are allowed to perform certain actions within a RoleHelper class.
+
 ```
 public class RoleHelper {
     public static boolean canAddItems(String role) {
@@ -74,7 +80,9 @@ public class RoleHelper {
     }
 }
 ```
+
 These roles are stored within the creation of the user database.
+
 ```
 public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, role TEXT)");
@@ -95,6 +103,7 @@ public void onCreate(SQLiteDatabase db) {
 ```
 
 Then, the role of the user can determine what UI elements are visible so that actions that are impossible for a certain user will not present as being possible.
+
 ```
 if (!RoleHelper.canAddItems(currentUserRole)) {
             btnAddItem.setVisibility(View.GONE); // using View for simplicity
@@ -102,6 +111,7 @@ if (!RoleHelper.canAddItems(currentUserRole)) {
 ```
 
 We also can see how these roles are implemented within additional checks beyond hidden UI elements; this means that if, for whatever reason, the user is still able to see certain elements that they shouldn't or have access to these methods, there are additional checks in place to verify the user is able to perform a certain action before it occurs. This is visible in this example with the method to add items to the database based on the user's input amongst all of the other input validations with the first if statement where the RoleHelper check occurs:
+
 ```
 private void addItem() {
         // Even though the button should be hidden, this is an additional RBAC check
@@ -145,15 +155,177 @@ private void addItem() {
     }
 ```
 
-
 You can read the full narrative of the artifact enhancement [here](/Narratives/Software Design and Engineering Narrative.pdf).
 This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
 
 ---
 
 # Algorithms and Data Structure
+## Access Enhanced Artifact [Here](Artifacts/Algorithms and Data Structure Enhancement/WaltersCS360InventoryApp)
 
+For the category of algorithms and data structure, this artifact was perfectly suited to demonstrate an enhancement related to efficiency of using the inventory. As it stood, the inventory functioned well in terms of storing item data, but there was no good way to sort and filter items which would become extremely inconvenient and could even render the application unusable if not implemented. 
 
+As outlined with my intentions of improvement in this category:
+
+> I will first have to improve the information that is stored based on items by providing more information (not all of which may necessarily be visible at all times; for example, a primary addition will be item categories). I will then have to format the items within the database in a way that they can be properly indexed, which in this case an array will serve well for due to the similarities of the data between entries. I will then need to create algorithmic logic that is capable of searching between the various types of information associated with an item (searching by name, category, or quantity). There will need to be additional user interface elements that the user can interact with to search for items, and logic that accounts for the user interface updating to show these results. Overall, I would like for this enhancement to be able to provide the user with the tools to search for items based on a variety of factors and be provided with an efficient return of results.
+
+This initial layout of how this enhancement was implemented is applicable to the steps I followed and the highlights of the new implementation within the code. Similarly to how in the Software Design and Engineering artifact I introduced a class for Users, there is also an implementation of the Item POJO class in this enhancement. From here, rather than loading a newly created ArrayList for the old method, we retrieve items using the Item object which exists in our DatabaseHelper:
+
+```
+public ArrayList<Item> getItemObjects (int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Item> items = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT item_id, name, amount, category FROM inventory WHERE user_id=?",
+                new String[]{String.valueOf(userId)}
+        );
+
+        while (cursor.moveToNext()) {
+            items.add(new Item(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getInt(2),
+                    cursor.getString(3)
+            ));
+        }
+
+        cursor.close();
+        return items;
+    }
+```
+
+This leads directly into our new methods to load items, load filtered items, and to filter items themselves depending on the new structure. This serves as our search functionality with the ability to load the new set of items based upon filtering by the query:
+
+```
+// Item filtering from search bar query
+    private void filterItems(String query) {
+        // null checks
+        if (allItems == null ) {
+            allItems = new ArrayList<>();
+        }
+        if (filteredItems == null) {
+            filteredItems = new ArrayList<>();
+        }
+        filteredItems.clear();
+
+        if (query == null) query = "";
+
+        for (Item item : allItems) {
+            if (item == null) continue;
+            String name = item.getName();
+            if (name != null && name.toLowerCase().contains(query.toLowerCase())) {
+                filteredItems.add(item);
+            }
+        }
+
+        loadFilteredItems();
+    }
+
+    private void loadFilteredItems() {
+        if (filteredItems == null) filteredItems = new ArrayList<>();
+        if (itemsList == null) return;
+        itemsList.removeAllViews();
+
+        for (Item item : filteredItems) {
+            if (item != null) {
+                addItemRow(item.getItemId(), item.getName(), item.getAmount(), item.getCategory());
+            }
+        }
+    }
+
+    private void loadItems() {
+        itemsList.removeAllViews(); // removes views for cleanup/refresh of items
+        // ArrayList<String[]> items= db.getItems(currentUserId);
+        allItems = db.getItemObjects(currentUserId); // Items before search
+        if (allItems == null) allItems = new ArrayList<>();
+        filteredItems = new ArrayList<>(allItems); // Items filtered from search
+
+        // Updated to use Item ArrayList with all items rather than the String ArrayList
+        for (Item item : allItems) { // iterator for loading in each item
+            addItemRow(item.getItemId(), item.getName(), item.getAmount(), item.getCategory());
+        }
+
+        loadFilteredItems();
+    }
+```
+
+Another highlight of this enhancement is the sort functionality, and since we have multiple sorting parameters per value that cannot exist simultaneously, a switch case was used to compare a certain value for sorting. This also shows how there is a new category value, and the updateArrows method refers to UI changes based upon ascending and descending search which it toggles through. The method for updating categories allows for suggestions for a category when adding a new item based upon old items' categories which is implemented throughout item changes in the activity to account for changes as are the filters and other live changes:
+
+```
+private void sortByValue(String value) {
+        if (filteredItems == null || filteredItems.isEmpty()) return;
+
+        // If reclicking same sorted column, swaps from ascending to descending
+        if (lastSortedValue.equals(value)) {
+            ascending = !ascending; // flipping boolean
+        } else {
+            ascending = true; // correcting in case other sorts
+        }
+        lastSortedValue = value;
+
+        Comparator<Item> comparator;
+
+        switch (value) {
+            case "id":
+                comparator = Comparator.comparing(Item::getItemId, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "amount":
+                comparator = Comparator.comparing(Item::getAmount);
+                break;
+            case "category":
+                comparator = Comparator.comparing(Item::getCategory, String.CASE_INSENSITIVE_ORDER);
+                break;
+            default: // name by default
+                comparator = Comparator.comparing(Item::getName, String.CASE_INSENSITIVE_ORDER);
+                break;
+        }
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        filteredItems.sort(comparator);
+        loadFilteredItems();
+        updateArrows(value, ascending);
+    }
+
+    // Updates the visual cues that show whether it is ascending or descending.
+    private void updateArrows(String lastSortedValue, boolean ascending) {
+        TextView[] headers = {itemNameHdr, itemIdHdr, itemAmtHdr, itemCatHdr};
+        String[] values = {"name", "id", "amount", "category"};
+
+        for (int i = 0; i < headers.length; i++) {
+            if (values[i].equals(lastSortedValue)) {
+                headers[i].setCompoundDrawablesWithIntrinsicBounds(
+                        null, null, ascending ? arrowUp : arrowDown, null
+                );
+            } else {
+                headers[i].setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
+        }
+    }
+
+    private void updateCategories(String newCategory) {
+        if (newCategory == null || newCategory.isEmpty()) return;
+
+        // Seeing if category already exists
+        boolean exists = false;
+        for (int i = 0; i < catAdapter.getCount(); i++) {
+            if (catAdapter.getItem(i).equalsIgnoreCase(newCategory)) {
+                exists = true;
+                break;
+            }
+        }
+
+        // Add category if not in adapter
+        if (!exists) {
+            catAdapter.add(newCategory);
+            catAdapter.notifyDataSetChanged();
+        }
+    }
+```
+
+You can read the full narrative of the artifact enhancement [here](Narratives/Algorithms and Data Structure Narrative.pdf).
+This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
 
 ---
 
