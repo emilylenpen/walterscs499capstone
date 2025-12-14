@@ -15,5 +15,5 @@ Beginning with this professional self-assessment, I can give you a lens into wha
 
 ---
 
-> [!CAUTION}
+> [!CAUTION]
 > Within the 'Databases' Enhancement, the google-services.json file has been removed for security reasons as it contains the sensitive API key.
