@@ -13,7 +13,7 @@ My progression through the Computer Science program at Southern New Hampshire Un
 - Demonstrate an ability to use well-founded and innovative techniques, skills, and tools in computing practices for the purpose of implementing computer solutions that deliver value and accomplish industry-specific goals
 - Develop a security mindset that anticipates adversarial exploits in software architecture and designs to expose potential vulnerabilities, mitigate design flaws, and ensure privacy and enhanced security of data and resources
 
-Beginning with this professional self-assessment, I can give you a lens into what I have learned and the skills I have refined during my time as a student at Southern New Hampshire University. 
+Beginning with this professional self-assessment, I can provide a lens through which I can articulate the things I have learned and the skills I have refined during my time as a student at Southern New Hampshire University. 
 
 ---
 
