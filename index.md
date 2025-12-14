@@ -157,8 +157,9 @@ private void addItem() {
     }
 ```
 
-You can read the full narrative of the artifact enhancement [here](/Narratives/Software Design and Engineering Narrative.pdf).
+### You can read the full narrative of the artifact enhancement [here](/Narratives/Software Design and Engineering Narrative.pdf).
 This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
+
 Overall, the Software Design and Engineering enhancement saw changes in role-based access control which resulted in a need for significant structural changes of the original application to store user data in a way that is more efficient and creates a better opportunity for users to have proper access to certain aspects of inventory management which helps to keep items secure. The resulting UI changes keep the app more streamlined depending on user needs and are relevant to what the user is capable of performing. Toasts are used throughout these changes to help communicate with the user what the application is performing.
 
 ---
@@ -327,8 +328,9 @@ private void sortByValue(String value) {
     }
 ```
 
-You can read the full narrative of the artifact enhancement [here](Narratives/Algorithms and Data Structure Narrative.pdf).
+### You can read the full narrative of the artifact enhancement [here](Narratives/Algorithms and Data Structure Narrative.pdf).
 This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
+
 The DSA enhancements also allowed for revisions of functionality of editing items and other minor functionality updates, and the CRUD functionality is newly responsive to the preferred method of item storage. These overhauls all throughout the application allow for a much more smooth and useful user experience through linear search for item filtering, data structure improvement, UI-related changes to accommodate for searching and sorting, CRUD changes related to item storage, and better-suited minor UI updates to clarify what points of interaction result in what actions taking place (quantity edit requires clicking on quantity itself, not whole row, and category editing also added). These changes add new and much-needed functionality to the application with visual updates to provide the user with these actions.
 
 ---
@@ -450,8 +452,9 @@ Now, we can look at how this affects our primary activity through one of the sim
 
 ```
 
-You can read the full narrative of the artifact enhancement [here](Narratives/Databases Enhancement.pdf).
+### You can read the full narrative of the artifact enhancement [here](Narratives/Databases Enhancement.pdf).
 This narrative includes a further breakdown of the troubleshooting process and meeting outcomes related to this category.
+
 For this enhancement, it becomes clear that the changes occurring throughout each category are not merely improvements one after another-instead, they are better suited to exist as different enhanced versions of the application upon different needs. The Software Design and Engineering improvements present themselves as significant improvements to the structural integrity of the application, and the DSA changes allow for greatly enhanced functionality of the app that extends beyond the Software Design and Engineering changes. Beyond this point, the Database enhancement is a step even further beyond the DSA changes because it migrates the app entirely away from SQLite and makes use of the tool Firebase. For a less dependent version of the application, one could refer to the application's enhancements in the other two categories, but this Firebase rehaul takes the app to another level using external tools that allow for it to continue to be easily expanded upon and allowing for better abstraction of code. 
 
 Another point of improvement in this enhancement involves significant enhancements in code documentation including a complete rehaul of all existing code comments as well as proper doc headers. All of these cumulative changes, including the extensive ones featured in this enhancement, alongside the refreshed comments take the application from a static offline inventory app to a cloud-based, secure, efficient, and far more scalable version of its previous iterations.
