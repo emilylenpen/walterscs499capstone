@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">WaltersCS360InventoryApp</string>
+
+    <!--General Strings-->
+    <string name="fill_fields">Please fill out all fields.</string>
+
+    <!--Login Strings-->
+    <string name="login_successful">Login successful! Redirecting. </string>
+    <string name="acct_creation_successful">Account successfully created. Log in!</string>
+    <string name="username_exists">Username already exists. Try again.</string>
+
+    <!--Main Activity Strings-->
+    <string name="invalid_amount">Invalid amount</string>
+    <string name="item_added">Item added to inventory.</string>
+    <string name="id_exists">Item ID exists already</string>
+    <string name="item_deleted">Item deleted from inventory.</string>
+    <string name="item_deletion_failed">Item was unable to be deleted.</string>
+
+    <!--SMS Permission Activity Strings-->
+    <string name="sms_perm_disabled">SMS permissions disabled.</string>
+    <string name="sms_perm_granted">SMS permissions successfully granted.</string>
+    <string name="sms_perm_denied">SMS permissions denied.</string>
+
+    <!--XML Strings-->
+    <string name="inventory_name">Name</string>
+    <string name="inventory_id">ID</string>
+    <string name="inventory_amount">Amount</string>
+    <string name="inventory_add">Add</string>
+    <string name="inventory_item_list">Inventory Item List</string>
+    <string name="item_name">Item Name</string>
+    <string name="item_id">Item ID</string>
+    <string name="item_amount">Item Amt.</string>
+    <string name="add_item">Add Item?</string>
+    <string name="delete">Delete</string>
+
+</resources>
