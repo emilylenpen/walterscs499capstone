@@ -46,7 +46,8 @@ I have chosen to substantially enhance a particular artifact from CS-360: Mobile
 
 ---
 
-# Software Design and Engineering | Access Enhanced Artifact [Here](Artifacts/Software Design and Engineering Enhancement/WaltersCS360InventoryApp)
+# Software Design and Engineering
+## Access Enhanced Artifact [Here](Artifacts/Software Design and Engineering Enhancement/WaltersCS360InventoryApp)
 
 For software design and engineering, I have implemented role-based access control into the application. This involved an extensive overhaul of preexisting software structure as well as new corresponding UI components or visual updates according to the user's role. Future iterations of the application include further failsafes related to the roles that have been added. 
 As my initial plan for this artifact stated: 
