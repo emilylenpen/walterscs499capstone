@@ -48,7 +48,7 @@ I have chosen to substantially enhance a particular artifact from CS-360: Mobile
 
 # Software Design and Engineering
 
-
+Testing a narrative link [here](Narratives/Software Design and Engineering Narrative.pdf).
 
 ---
 
