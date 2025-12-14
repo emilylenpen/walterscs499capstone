@@ -21,6 +21,7 @@ My experience with teamwork and collaboration in the world of computer science b
 
   My professional assessment will provide me with the skills to advocate for myself and what I am capable of through both the work I have done to showcase my technical skills as well as my soft skills demonstrated through my communication of my critical thinking and problem solving related to issues that exist within my own work, my ability to devise a plan and analyze software and its systems to improve upon it at its core while providing future room for adaptability, and my ability to reflect and constantly strive for improvement in all of my work. I am proud to be able to reflect on the passion and resilience I have poured into all of my coursework at Southern New Hampshire University and how that is reflected throughout my capstone project that illustrates a final summation of the work I have done as well as how I will continue to improve and create new meaningful work in the future.
 
+<div style="page-break-after: always;"></div>
 
 # Code Review
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hlcshzuKRJs?si=p5SqfbURtTG-h4T3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
